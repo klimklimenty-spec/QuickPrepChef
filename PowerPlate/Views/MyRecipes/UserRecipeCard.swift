@@ -7,24 +7,29 @@ struct UserRecipeCard: View {
         
     var body: some View {
         Button(action: onTap) {
-            VStack(spacing: 8) {
-                typeBadge
-                
-                recipeImage
-                
-                recipeInfo
-            }
-            .padding(8)
-            .frame(height: 240)
-            .background(Color.color3)
-            .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-            .overlay {
-                RoundedRectangle(cornerRadius: 16, style: .continuous)
-                    .strokeBorder(Color.white.opacity(0.1), lineWidth: 1)
+            if #available(iOS 15.0, *) {
+                VStack(spacing: 8) {
+                    typeBadge
+                    
+                    recipeImage
+                    
+                    recipeInfo
+                }
+                .padding(8)
+                .frame(height: 240)
+                .background(Color.color3)
+                .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                .overlay {
+                    RoundedRectangle(cornerRadius: 16, style: .continuous)
+                        .strokeBorder(Color.white.opacity(0.1), lineWidth: 1)
+                }
+            } else {
+                // Fallback on earlier versions
             }
         }
     }
         
+    @available(iOS 15.0, *)
     private var typeBadge: some View {
         Text(recipe.type.rawValue)
             .font(.montserrat(size: 11, weight: .bold))
@@ -38,6 +43,7 @@ struct UserRecipeCard: View {
             .frame(maxWidth: .infinity, alignment: .leading)
     }
     
+    @available(iOS 15.0, *)
     private var recipeImage: some View {
         Group {
             if let image = recipe.image {

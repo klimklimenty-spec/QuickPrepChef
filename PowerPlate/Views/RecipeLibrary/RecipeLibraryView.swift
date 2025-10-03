@@ -59,8 +59,12 @@ struct RecipeLibraryView: View {
                         Color.black.opacity(0.6)
                             .ignoresSafeArea()
                         
-                        RecipeDetailView(recipe: recipe, isPresented: $showRecipeDetail, viewModel: viewModel)
-                            .transition(.scale)
+                        if #available(iOS 15.0, *) {
+                            RecipeDetailView(recipe: recipe, isPresented: $showRecipeDetail, viewModel: viewModel)
+                                .transition(.scale)
+                        } else {
+                            // Fallback on earlier versions
+                        }
                     }
                 }
                 .animation(.easeInOut(duration: 0.3), value: showRecipeDetail)

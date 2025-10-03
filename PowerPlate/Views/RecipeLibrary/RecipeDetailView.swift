@@ -1,4 +1,5 @@
 import SwiftUI
+@available(iOS 15.0, *)
 
 struct RecipeDetailView: View {
     
@@ -161,26 +162,30 @@ struct IngredientsView: View {
                 .foregroundColor(Color.color1)
                 .padding(.bottom, 4)
             
-            ScrollView {
-                VStack(spacing: 6) {
-                    ForEach(Array(recipe.ingredients.enumerated()), id: \.offset) { index, ingredient in
-                        HStack(alignment: .top, spacing: 8) {
-                            Text("\(index + 1).")
-                                .font(.montserrat(size: 14, weight: .medium))
-                                .foregroundColor(Color.color1)
-                                .frame(width: 20, alignment: .leading)
-                            
-                            Text(ingredient)
-                                .font(.montserrat(size: 14, weight: .medium))
-                                .foregroundColor(.white)
-                                .multilineTextAlignment(.leading)
-                            
-                            Spacer()
+            if #available(iOS 16.0, *) {
+                ScrollView {
+                    VStack(spacing: 6) {
+                        ForEach(Array(recipe.ingredients.enumerated()), id: \.offset) { index, ingredient in
+                            HStack(alignment: .top, spacing: 8) {
+                                Text("\(index + 1).")
+                                    .font(.montserrat(size: 14, weight: .medium))
+                                    .foregroundColor(Color.color1)
+                                    .frame(width: 20, alignment: .leading)
+                                
+                                Text(ingredient)
+                                    .font(.montserrat(size: 14, weight: .medium))
+                                    .foregroundColor(.white)
+                                    .multilineTextAlignment(.leading)
+                                
+                                Spacer()
+                            }
                         }
                     }
                 }
+                .scrollIndicators(.hidden)
+            } else {
+                // Fallback on earlier versions
             }
-            .scrollIndicators(.hidden)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
@@ -200,15 +205,19 @@ struct InstructionsView: View {
                     .foregroundColor(Color("Color1"))
             }
             
-            ScrollView {
-                Text(recipe.instructions[currentStep])
-                    .font(.montserrat(size: 14, weight: .medium))
-                    .foregroundColor(.white)
-                    .multilineTextAlignment(.leading)
-                    .lineLimit(nil)
-                    .frame(maxWidth: .infinity, alignment: .leading)
+            if #available(iOS 16.0, *) {
+                ScrollView {
+                    Text(recipe.instructions[currentStep])
+                        .font(.montserrat(size: 14, weight: .medium))
+                        .foregroundColor(.white)
+                        .multilineTextAlignment(.leading)
+                        .lineLimit(nil)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                .scrollIndicators(.hidden)
+            } else {
+                // Fallback on earlier versions
             }
-            .scrollIndicators(.hidden)
             
             HStack(spacing: 12) {
                 Button(action: {
@@ -240,13 +249,4 @@ struct InstructionsView: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
-}
-
-#Preview {
-    RecipeDetailView(
-        recipe: Recipe.sampleRecipes[0],
-        isPresented: .constant(true),
-        viewModel: RecipeLibraryViewModel()
-    )
-    .environmentObject(ShoppingViewModel())
 }

@@ -36,16 +36,20 @@ struct MyRecipesView: View {
                 Button {
                     viewModel.addNewRecipe()
                 } label: {
-                    Text("+ Add Recipe")
-                        .font(.montserrat(size: 16, weight: .bold))
-                        .foregroundColor(.black)
-                        .frame(width: 180, height: 56)
-                        .background(LinearGradient(colors: [.color0, .color1], startPoint: .top, endPoint: .bottom))
-                        .overlay(content: {
-                            RoundedRectangle(cornerRadius: 12)
-                                .strokeBorder(Color.white, lineWidth: 1)
-                        })
-                        .cornerRadius(12)
+                    if #available(iOS 15.0, *) {
+                        Text("+ Add Recipe")
+                            .font(.montserrat(size: 16, weight: .bold))
+                            .foregroundColor(.black)
+                            .frame(width: 180, height: 56)
+                            .background(LinearGradient(colors: [.color0, .color1], startPoint: .top, endPoint: .bottom))
+                            .overlay(content: {
+                                RoundedRectangle(cornerRadius: 12)
+                                    .strokeBorder(Color.white, lineWidth: 1)
+                            })
+                            .cornerRadius(12)
+                    } else {
+                        // Fallback on earlier versions
+                    }
                 }
                 .padding(.horizontal, 20)
                 .padding(.bottom, 100)
@@ -59,9 +63,13 @@ struct MyRecipesView: View {
                     Color.black.opacity(0.6)
                         .ignoresSafeArea()
                     
-                    CreateRecipeView(viewModel: viewModel)
-                    .transition(.scale)
-                    .padding(.top, 10)
+                    if #available(iOS 16.0, *) {
+                        CreateRecipeView(viewModel: viewModel)
+                            .transition(.scale)
+                            .padding(.top, 10)
+                    } else {
+                        // Fallback on earlier versions
+                    }
                 }
             }
             .animation(.spring(response: 0.5, dampingFraction: 0.8), value: viewModel.showingDetailPopUp)

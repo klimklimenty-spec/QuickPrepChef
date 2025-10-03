@@ -1,6 +1,7 @@
 import SwiftUI
 import PhotosUI
 
+@available(iOS 16.0, *)
 struct CreateRecipeView: View {
     
     @ObservedObject var viewModel: MyRecipesViewModel
@@ -257,6 +258,10 @@ struct CreateRecipeView: View {
         Color.black.opacity(0.6)
             .ignoresSafeArea()
         
-        CreateRecipeView(viewModel: MyRecipesViewModel())
+        if #available(iOS 16.0, *) {
+            CreateRecipeView(viewModel: MyRecipesViewModel())
+        } else {
+            // Fallback on earlier versions
+        }
     }
 }

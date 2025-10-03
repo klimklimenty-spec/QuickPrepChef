@@ -39,16 +39,20 @@ struct ShoppingView: View {
                                 Button(action: {
                                     viewModel.clearCompletedItems()
                                 }) {
-                                    Text("Clear Checked Items")
-                                        .font(.montserrat(size: 14, weight: .bold))
-                                        .foregroundColor(.white)
-                                        .frame(width: 150, height: 56)
-                                        .background(Color.red.opacity(0.8))
-                                        .overlay(content: {
-                                            RoundedRectangle(cornerRadius: 12)
-                                                .strokeBorder(Color.white, lineWidth: 1)
-                                        })
-                                        .cornerRadius(12)
+                                    if #available(iOS 15.0, *) {
+                                        Text("Clear Checked Items")
+                                            .font(.montserrat(size: 14, weight: .bold))
+                                            .foregroundColor(.white)
+                                            .frame(width: 150, height: 56)
+                                            .background(Color.red.opacity(0.8))
+                                            .overlay(content: {
+                                                RoundedRectangle(cornerRadius: 12)
+                                                    .strokeBorder(Color.white, lineWidth: 1)
+                                            })
+                                            .cornerRadius(12)
+                                    } else {
+                                        // Fallback on earlier versions
+                                    }
                                 }
                                 .padding(.horizontal, 20)
                             }
@@ -59,16 +63,20 @@ struct ShoppingView: View {
                 Button {
                     viewModel.showAddItemSheet = true
                 } label: {
-                    Text("+ Add Item")
-                        .font(.montserrat(size: 14, weight: .bold))
-                        .foregroundColor(.black)
-                        .frame(width: 150, height: 56)
-                        .background(LinearGradient(colors: [.color0, .color1], startPoint: .top, endPoint: .bottom))
-                        .overlay(content: {
-                            RoundedRectangle(cornerRadius: 12)
-                                .strokeBorder(Color.white, lineWidth: 1)
-                        })
-                        .cornerRadius(12)
+                    if #available(iOS 15.0, *) {
+                        Text("+ Add Item")
+                            .font(.montserrat(size: 14, weight: .bold))
+                            .foregroundColor(.black)
+                            .frame(width: 150, height: 56)
+                            .background(LinearGradient(colors: [.color0, .color1], startPoint: .top, endPoint: .bottom))
+                            .overlay(content: {
+                                RoundedRectangle(cornerRadius: 12)
+                                    .strokeBorder(Color.white, lineWidth: 1)
+                            })
+                            .cornerRadius(12)
+                    } else {
+                        // Fallback on earlier versions
+                    }
                 }
                 .padding(.bottom, 100)
             }
